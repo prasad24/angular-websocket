@@ -15,9 +15,22 @@ export class ChatService {
     this.socket.emit('join', data);
   }
 
+  leaveLobby(data) {
+    this.socket.emit('leave', data);
+  }
+
   newUserJoined() {
     return new Observable<{username:string, message:string}>(observe => {
       this.socket.on('newuser', data => {
+        observe.next(data);
+      });
+      return () => {this.socket.disconnect();};
+    });
+  }
+
+  userLeftLobby() {
+    return new Observable<{username:string, message:string}>(observe => {
+      this.socket.on('userleft', data => {
         observe.next(data);
       });
       return () => {this.socket.disconnect();};

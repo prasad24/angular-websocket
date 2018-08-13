@@ -16,11 +16,20 @@ export class AppComponent implements OnInit {
   constructor(private chatService:ChatService) {}
 
   ngOnInit() {
+    //Listen to users joining
     this.chatService.newUserJoined()
       .subscribe(data => {
         console.log('data', data);
         this.messages.push(data);
       });
+
+      //listen to users leaving lobby
+      this.chatService.userLeftLobby()
+      .subscribe(data => {
+        console.log('data', data);
+        this.messages.push(data);
+      });
+
   }
 
   onJoinClick() {
@@ -29,4 +38,10 @@ export class AppComponent implements OnInit {
     this.chatService.joinRoom({username: this.username, lobby: this.lobby});
   }
 
+  onLeaveClick() {
+    this.chatService.leaveLobby({username: this.username, lobby: this.lobby});
+    this.username = '';
+    this.lobby = '';
+    this.joined = false;
+  }
 }

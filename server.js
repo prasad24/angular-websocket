@@ -24,6 +24,19 @@ io.on('connection', socket => {
             message: 'User ' + data.username + ' has joined'
         });
     });
+
+    socket.on('leave', data => {
+        console.log(data.username + ' left ' + data.lobby);
+
+        //Make the user leave the lobby
+        socket.leave(data.lobby);
+
+        //Broadcast to other users, that some else joined the room
+        socket.broadcast.to(data.lobby).emit('userleft',{
+            username: data.username,
+            message: 'User ' + data.username + ' left'
+        });
+    });
 })
 
 http.listen(PORT, ()=>{

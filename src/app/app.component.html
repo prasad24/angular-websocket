@@ -30,16 +30,16 @@
         <label for="">{{lobby | uppercase}} - Chat Details</label>
       </div>
       <div class="col-12 form-group">
-        <div class="form-control messages" *ngFor="let data of messages">
-            <strong>{{data.username}}:</strong><span>{{data.message}}</span>
-        </div>
-      </div>
-      <div class="col-12 form-group">
-        <input type="text" class="form-control" name="message" id="message">
+        <input type="text" placeholder="Type your message" class="form-control" name="message" id="message">
       </div>
       <div class="col-12 form-group">
         <button class="btn btn-primary">Send</button>
-        <button class="btn btn-default">Leave {{lobby}} Room</button>
+        <button (click)="onLeaveClick()" class="btn btn-default">Leave {{lobby}} Room</button>
+      </div>
+      <div class="col-12 form-group">
+        <div class="form-control messages" *ngFor="let data of messages">
+            <strong>{{data.username}}:</strong><span>{{data.message}}</span>
+        </div>
       </div>
     </div>
   </div>
