@@ -19,28 +19,24 @@ export class AppComponent implements OnInit {
     //Listen to users joining
     this.chatService.newUserJoined()
       .subscribe(data => {
-        console.log('data', data);
         this.messages.push(data);
       });
 
       //listen to users leaving lobby
       this.chatService.userLeftLobby()
       .subscribe(data => {
-        console.log('data', data);
         this.messages.push(data);
       });
 
       //listen to new messages in the lobby
       this.chatService.newMessage()
       .subscribe(data => {
-        console.log('data', data);
         this.messages.push(data);
       });
   }
 
   onJoinClick() {
     this.joined = true;
-    console.log('username', this.username, this.lobby);
     this.chatService.joinRoom({username: this.username, lobby: this.lobby});
   }
 

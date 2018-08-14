@@ -10,10 +10,7 @@ const io = require('socket.io')(http);
 const PORT = process.env.PORT || 3000;
 
 io.on('connection', socket => {
-    console.log('New connection has been made');
-
     socket.on('join', data => {
-        console.log(data.username + ' joined room ' + data.lobby);
 
         //Make the user join the lobby
         socket.join(data.lobby);
@@ -26,8 +23,6 @@ io.on('connection', socket => {
     });
 
     socket.on('leave', data => {
-        console.log(data.username + ' left ' + data.lobby);
-
         //Make the user leave the lobby
         socket.leave(data.lobby);
 
@@ -39,8 +34,6 @@ io.on('connection', socket => {
     });
 
     socket.on('message', data => {
-        console.log(data.username + ' typed a message ' + data.message);
-
         //Broadcast the message to all users including the sender using io.in.
         io.in(data.lobby).emit('message',{
             username: data.username,
