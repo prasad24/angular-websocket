@@ -20,7 +20,7 @@ export class ChatService {
   }
 
   newUserJoined() {
-    return new Observable<{username:string, message:string}>(observe => {
+    return new Observable<{username:string, message:string, users:string[]}>(observe => {
       this.socket.on('newuser', data => {
         observe.next(data);
       });
@@ -29,7 +29,7 @@ export class ChatService {
   }
 
   userLeftLobby() {
-    return new Observable<{username:string, message:string}>(observe => {
+    return new Observable<{username:string, message:string, users:string[]}>(observe => {
       this.socket.on('userleft', data => {
         observe.next(data);
       });

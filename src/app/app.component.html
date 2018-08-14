@@ -4,6 +4,7 @@
   <div class="row">
     <div class="col-6">
       <div class="form-group">
+        <h6>Please select your username and lobby</h6>
         <label for="username">Username</label>
         <input type="text" [(ngModel)]="username" name="username" id="username" class="form-control" placeholder="Enter username">
       </div>
@@ -16,7 +17,7 @@
         </select>
       </div>
       <div class="form-group">
-        <button (click)="onJoinClick()" class="btn btn-primary">Join</button>
+        <button [disabled]="!lobby || !username" (click)="onJoinClick()" class="btn btn-primary">Join</button>
       </div>
     </div>
   </div>
@@ -26,19 +27,31 @@
     <h1>Chat Application - <label for="username">{{username | uppercase}}</label></h1>
     <hr />
     <div class="row">
-      <div class="col-12 form-group">
-        <label for="">{{lobby | uppercase}} - Chat Details</label>
+      <div class="col-3">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Active Users</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let user of users" class="list-group-item">{{user}}</li>
+          </ul>
+        </div>
       </div>
-      <div class="col-12 form-group">
-        <input type="text" #Message placeholder="Type your message" class="form-control" name="message" id="message">
-      </div>
-      <div class="col-12 form-group">
-        <button (click)="sendMessage(Message.value)" class="btn btn-primary">Send</button>
-        <button (click)="onLeaveClick()" class="btn btn-default">Leave {{lobby}} Room</button>
-      </div>
-      <div class="col-12 form-group">
-        <div class="form-control messages" *ngFor="let data of messages">
-            <strong>{{data.username}}:</strong><span>{{data.message}}</span>
+      <div class="col-9">
+        <div class="col-12 form-group">
+          <label for="">{{lobby | uppercase}} - Chat Details</label>
+        </div>
+        <div class="col-12 form-group">
+          <input type="text" [(ngModel)]="message" placeholder="Type your message" class="form-control" name="message" id="message">
+        </div>
+        <div class="col-12 form-group">
+          <button [disabled]="!message" (click)="sendMessage()" class="btn btn-primary">Send</button>
+          <button (click)="onLeaveClick()" class="btn btn-default">Leave {{lobby}} Room</button>
+        </div>
+        <div class="col-12 form-group">
+          <div [ngStyle]="messageColor(data.username)" class="form-control messages" *ngFor="let data of messages">
+              <strong>{{data.username}}: </strong><span>{{data.message}}</span>
+          </div>
         </div>
       </div>
     </div>

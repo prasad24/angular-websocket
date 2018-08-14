@@ -10,8 +10,10 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
   private username = '';
   private lobby = '';
+  private message = '';
   private joined = false;
   private messages = [];
+  private users = [];
 
   constructor(private chatService:ChatService) {}
 
@@ -19,12 +21,15 @@ export class AppComponent implements OnInit {
     //Listen to users joining
     this.chatService.newUserJoined()
       .subscribe(data => {
+        console.log('newuser', data);
+        this.users = data.users;
         this.messages.push(data);
       });
 
       //listen to users leaving lobby
       this.chatService.userLeftLobby()
       .subscribe(data => {
+        this.users = data.users;
         this.messages.push(data);
       });
 
@@ -45,13 +50,21 @@ export class AppComponent implements OnInit {
     this.username = '';
     this.lobby = '';
     this.joined = false;
+    this.messages = [];
   }
 
-  sendMessage(message) {
+  sendMessage() {
     this.chatService.sendMessage({
       username: this.username,
       lobby: this.lobby,
-      message
+      message: this.message
     });
+    this.message = '';
+  }
+
+  messageColor(user) {
+    return {
+      color: user === this.username ? 'black' : 'green'
+    }
   }
 }
