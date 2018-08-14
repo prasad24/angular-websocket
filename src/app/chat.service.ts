@@ -36,4 +36,17 @@ export class ChatService {
       return () => {this.socket.disconnect();};
     });
   }
+
+  sendMessage(data) {
+    this.socket.emit('message', data);
+  }
+
+  newMessage() {
+    return new Observable<{username:string, message:string}>(observe => {
+      this.socket.on('message', data => {
+        observe.next(data);
+      });
+      return () => {this.socket.disconnect();};
+    });
+  }
 }

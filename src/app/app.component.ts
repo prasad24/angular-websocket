@@ -30,6 +30,12 @@ export class AppComponent implements OnInit {
         this.messages.push(data);
       });
 
+      //listen to new messages in the lobby
+      this.chatService.newMessage()
+      .subscribe(data => {
+        console.log('data', data);
+        this.messages.push(data);
+      });
   }
 
   onJoinClick() {
@@ -43,5 +49,13 @@ export class AppComponent implements OnInit {
     this.username = '';
     this.lobby = '';
     this.joined = false;
+  }
+
+  sendMessage(message) {
+    this.chatService.sendMessage({
+      username: this.username,
+      lobby: this.lobby,
+      message
+    });
   }
 }

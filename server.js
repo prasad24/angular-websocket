@@ -37,6 +37,16 @@ io.on('connection', socket => {
             message: 'User ' + data.username + ' left'
         });
     });
+
+    socket.on('message', data => {
+        console.log(data.username + ' typed a message ' + data.message);
+
+        //Broadcast the message to all users including the sender using io.in.
+        io.in(data.lobby).emit('message',{
+            username: data.username,
+            message: data.message
+        });
+    });
 })
 
 http.listen(PORT, ()=>{
